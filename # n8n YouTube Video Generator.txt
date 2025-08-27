@@ -1,0 +1,56 @@
+# n8n YouTube Video Generator
+
+This repository contains two [n8n](https://n8n.io/) workflow JSON files that automate the process of generating and publishing YouTube videos using AI-generated scripts, visuals, and Google Sheets for project management.
+
+---
+
+## Overview
+
+This project enables you to:
+
+- Automatically generate video scripts and scene prompts using AI.
+- Render videos using the [json2video](https://json2video.com/) API.
+- Track video production and publishing status in Google Sheets.
+- Automatically upload finished videos to YouTube.
+
+---
+
+## Workflows
+
+### 1. Video Generation Workflow
+
+The [`generate video.json`](generate%20video.json) workflow orchestrates the process of:
+
+- Fetching video ideas and prompts from a Google Sheet.
+- Generating scene-by-scene voiceover scripts and image prompts using AI (Google Gemini).
+- Sending the prompts and assets to json2video to render the video.
+- Updating the Google Sheet with the video status and output link.
+
+#### Workflow Diagram
+
+![Video Generation Workflow](generate.png)
+
+---
+
+### 2. Video Publishing Workflow
+
+The [`publish video.json`](publish%20video.json) workflow:
+
+- Checks the Google Sheet for videos that have been created but not yet published.
+- Downloads the finished video.
+- Uploads the video to YouTube with the appropriate title and description.
+- Updates the publishing status in the Google Sheet.
+
+#### Workflow Diagram
+
+![Video Publishing Workflow](publish.png)
+
+---
+
+## Setup Instructions
+
+1. **Clone this repository**
+
+   ```sh
+   git clone <your-repo-url>
+   cd n8n-workflows/json2video
