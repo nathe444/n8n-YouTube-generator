@@ -1,0 +1,1075 @@
+{
+  "name": "youtube copied",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -896,
+        448
+      ],
+      "id": "20b44528-ad1b-4954-b7cf-a9e6b60e50ca",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "[\n  {\n    \"voiceText\": \"You're standing at the edge, where hope feels distant. Yet, this is where resilience is born.\",\n    \"image_prompt\": \"A lone figure stands on a rainy, dimly lit street corner, water dripping from a grayscale umbrella. Intense close-up of determined eyes under a dark, moody sky.\"\n  },\n  {\n    \"voiceText\": \"The world around may seem dark, but within you lies an unyielding flame.\",\n    \"image_prompt\": \"A dimly lit room, shadows playing across walls. Close-up of hands lighting a single candle, casting warm light amidst deep shadows.\"\n  },\n  {\n    \"voiceText\": \"In the silence of despair, your heart whispers the truth of your strength.\",\n    \"image_prompt\": \"A solitary figure in an empty cafe, rain streaking windows. Soft focus on their reflective expression, city lights blurred behind.\"\n  },\n  {\n    \"voiceText\": \"Every step feels heavy, yet each one is a testament to your courage.\",\n    \"image_prompt\": \"Close-up of worn boots stepping through puddles on a gritty urban street, droplets splashing dramatically in the air.\"\n  },\n  {\n    \"voiceText\": \"You're not alone; every hero has walked this road of trials.\",\n    \"image_prompt\": \"A series of black and white photos pinned to a wall, each capturing different faces of diverse people in deep thought.\"\n  }\n]\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -368,
+        640
+      ],
+      "id": "22245cb3-836e-4fee-b5ed-7c3567cc5f89",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4",
+          "mode": "list",
+          "cachedResultName": "youtube ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1972962569,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit#gid=1972962569"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "to use",
+              "lookupValue": "final"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -128,
+        448
+      ],
+      "id": "f6499bc5-9242-4b98-86e6-be933f7df0e5",
+      "name": "Get Music",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wx6psFW5KwTw40cV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 600
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        448
+      ],
+      "id": "8a54f19f-47e1-4cd5-b4ad-4951d06e8c90",
+      "name": "Wait",
+      "webhookId": "99d7dad2-0ce3-4ef5-ab20-7869d9855291"
+    },
+    {
+      "parameters": {
+        "url": "https://api.json2video.com/v2/movies",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "project",
+              "value": "={{ $('HTTP Request').item.json.project }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        464,
+        448
+      ],
+      "id": "34db4cf1-c3ca-42ed-a1a5-9745eca250d6",
+      "name": "HTTP Request1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "weCmTzMxh4Ep5jY7",
+          "name": "json2video2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "done",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "0ac83858-6c59-4c19-9d71-0b1356e464aa"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "669bf6ba-a534-4f9a-8050-aeb4d76711bd",
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "not published",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not published"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "15cf642f-faa3-4af8-ba44-63eeb704d06e",
+                    "leftValue": "={{ $json.movie.status }}",
+                    "rightValue": "Error",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        704,
+        288
+      ],
+      "id": "04bf4cc0-1280-4669-8046-41466bfa99b0",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        704,
+        448
+      ],
+      "id": "eeacf38c-8250-49fa-9a07-e50370d34fc1",
+      "name": "Wait1",
+      "webhookId": "2867312b-d8a9-42ed-af31-8a1153d7a7e5"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4",
+          "mode": "list",
+          "cachedResultName": "youtube ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1BHe706Ul6r4Mp-ZRAoDZXm2KybIzu3lZw8-I5dJsras/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Get row(s) in sheet').first().json.ID }}",
+            "PRODUCTION STATUS": "error"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IDEAS",
+              "displayName": "IDEAS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CHANNEL_STYLE_PROMPT",
+              "displayName": "CHANNEL_STYLE_PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CHARACTER_STYLE_PROMPT",
+              "displayName": "CHARACTER_STYLE_PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CAPTIONS",
+              "displayName": "CAPTIONS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PRODUCTION STATUS",
+              "displayName": "PRODUCTION STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FINAL OUTPUT",
+              "displayName": "FINAL OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PUBLISHING STATUS",
+              "displayName": "PUBLISHING STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ERRORS",
+              "displayName": "ERRORS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        704,
+        608
+      ],
+      "id": "473ff0e9-fcf4-4f39-a0f7-dca9f9383772",
+      "name": "Error log",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wx6psFW5KwTw40cV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Get ideas and generate prompts\n",
+        "height": 480,
+        "width": 740,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -944,
+        320
+      ],
+      "id": "61860011-6048-4dee-a210-82d9f94debd3",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Intro music and video",
+        "height": 700,
+        "width": 170,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        176
+      ],
+      "id": "8448c21a-f03b-42c0-961d-85b45bcaa1ce",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Generate a video",
+        "height": 480,
+        "width": 560,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        48,
+        304
+      ],
+      "id": "a84fbce1-9fe6-4bb2-8d53-cca78de59ab6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## wating logic",
+        "height": 700
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        640,
+        176
+      ],
+      "id": "53063a9f-014c-454a-8913-055ecce9585b",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# Update the status on sheets",
+        "height": 480,
+        "width": 328,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        928,
+        304
+      ],
+      "id": "bc4f9af9-2285-4df9-9c4d-814e05fbef90",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4",
+          "mode": "list",
+          "cachedResultName": "youtube ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "PRODUCTION_STATUS",
+              "lookupValue": "to create"
+            }
+          ]
+        },
+        "options": {
+          "returnFirstMatch": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -720,
+        448
+      ],
+      "id": "0bbc57ca-a7eb-48cf-9121-296aacc4d480",
+      "name": "Get row(s) in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wx6psFW5KwTw40cV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -656,
+        656
+      ],
+      "id": "f21424b1-562e-4708-a5c0-78008b9262c7",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "ePTTLiwYhEiCJj4H",
+          "name": "Google Gemini(PaLM) Api account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Video Title: {{$json.IDEAS}}\n Video Description: {{$json.CAPTIONS}}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=ROLE  Act as a seasoned prompt engineer with expertise in scripting voiceovers and crafting visual scenes for video storytelling.  PROJECT STRUCTURE  You are developing a story-driven video divided into the following phases:  Intro: Scenes 1 to 3  Build-Up: Scenes 4 to 13  Conclusion: Scenes 14 to 17  The user will give you the video title and description to base your work on.  DELIVERABLE  Produce a JSON array consisting of 14 objects. Each object should contain two fields:  voiceText – a short narrative voiceover, exactly two sentences long,  between 11 and 15 words each. It must feel intellectually refined yet easy to follow.  Style and tone must align with:  {{ $json.CHANNEL_STYLE_PROMPT }}   image_prompt – a richly detailed and cinematic visual description.  This should vividly bring the scene to life and reflect the following character:  {{ $json.CHARACTER_STYLE_PROMPT }} Integrate metaphorical language and analogies, especially using the character described below where suitable.  ESSENTIAL RULE   Ensure that every scene transitions logically to the next.  The full sequence should feel like a continuous, emotionally cohesive story.   Use simple words while creating the content  IMPORTANT  Do not explain or comment on your work.  Do not use double quotes in the final output.  Return only the JSON array.\n\n# The video length should be no more than 2 minutes!!!"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -528,
+        448
+      ],
+      "id": "c39ba315-024a-469a-8c2a-b25e1aec76c4",
+      "name": "Generate Prompts"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.json2video.com/v2/movies",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"template\": \"bUHmblFQsFQQXS5Gw4Qa\",\n  \"variables\": {\n    \"voiceModel\": \"elevenlabs\",\n    \"voiceID\": \"ODq5zmih8GrVes37Dizd\",\n    \"imageModel\": \"flux-pro\",\n    \"audioURL\": \"{{ $json['audio list'] }}\",\n    \"introVideo\": \"{{ $json['intro video'] }}\",\n    \"introText\": \"{{ $('Get row(s) in sheet').item.json.IDEAS }}\",\n    \"clips\": [\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[0].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[0].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[1].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[1].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[2].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[2].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[3].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[3].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[4].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[4].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[5].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[5].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[6].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[6].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[7].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[7].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[8].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[8].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[9].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[9].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[10].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[10].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[11].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[11].image_prompt }}\"\n      },\n      {\n        \"voiceText\": \"{{ $('Generate Prompts').item.json.output[12].voiceText }}\",\n        \"image_prompt\": \"{{ $('Generate Prompts').item.json.output[12].image_prompt }}\"\n      }\n    ]\n  }\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        96,
+        448
+      ],
+      "id": "c37ad9a9-6756-4b1d-b257-b2951bd01fac",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "weCmTzMxh4Ep5jY7",
+          "name": "json2video2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4",
+          "mode": "list",
+          "cachedResultName": "youtube ideas",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1GwlcXGT--ZK2dCWH3R9sU3kUgpXU-Uz2drqw8pj-Xi4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            " ID": "={{ $('Get row(s) in sheet').item.json[' ID'] }}",
+            "PRODUCTION_STATUS": "created",
+            "PUBLISHING_STATUS": "=not published",
+            "FINAL_OUTPUT": "={{ $json.movie.url }}"
+          },
+          "matchingColumns": [
+            " ID"
+          ],
+          "schema": [
+            {
+              "id": " ID",
+              "displayName": " ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "IDEAS",
+              "displayName": "IDEAS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CHANNEL_STYLE_PROMPT",
+              "displayName": "CHANNEL_STYLE_PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CHARACTER_STYLE_PROMPT",
+              "displayName": "CHARACTER_STYLE_PROMPT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "CAPTIONS",
+              "displayName": "CAPTIONS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PRODUCTION_STATUS",
+              "displayName": "PRODUCTION_STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "FINAL_OUTPUT",
+              "displayName": "FINAL_OUTPUT",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "PUBLISHING_STATUS",
+              "displayName": "PUBLISHING_STATUS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ERRORS",
+              "displayName": "ERRORS",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        992,
+        448
+      ],
+      "id": "008b5d85-9790-4cf4-8659-52e2f76d84d8",
+      "name": "update sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "wx6psFW5KwTw40cV",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "HTTP Request": [
+      {
+        "json": {
+          "success": true,
+          "project": "C2TYqrwiegqP50BM",
+          "timestamp": "2025-08-27T11:40:46.715Z"
+        }
+      }
+    ],
+    "Wait": [
+      {
+        "json": {
+          "success": true,
+          "project": "C2TYqrwiegqP50BM",
+          "timestamp": "2025-08-27T11:40:46.715Z"
+        }
+      }
+    ],
+    "HTTP Request1": [
+      {
+        "json": {
+          "success": true,
+          "movie": {
+            "success": true,
+            "status": "done",
+            "message": "",
+            "project": "C2TYqrwiegqP50BM",
+            "url": "https://assets.json2video.com/clients/ei26CbiFGd/renders/2025-08-27-05258.mp4",
+            "ass": "https://assets.json2video.com/clients/ei26CbiFGd/renders/2025-08-27-05258.ass",
+            "created_at": "2025-08-27T11:40:46.447Z",
+            "ended_at": "2025-08-27T11:46:25.420Z",
+            "json": "{\"variables\":{\"voiceModel\":\"elevenlabs\",\"voiceID\":\"ODq5zmih8GrVes37Dizd\",\"audioURL\":\"https://assets.json2video.com/clients/ei26CbiFGd/uploads/Whispers in the Fog.mp3\",\"introVideo\":\"https://videos.pexels.com/video-files/7385122/7385122-hd_1280_720_30fps.mp4\",\"clips\":[{\"voiceText\":\"Ancient whispers speak of a leader whose vision shone brighter than any crown. He understood that true power stemmed not from force, but from shared purpose.\",\"image_prompt\":\"A cinematic shot of a young Alexander in polished golden armor, standing on a windswept cliff at dawn. His determined gaze looks out over a vast, misty landscape towards the rising sun, symbolizing an expansive vision. He points forward with unwavering resolve, an emblem of a new era.\"},{\"voiceText\":\"Many sought to conquer lands, yet Alexander aimed higher, seeking to unite diverse peoples. His path was illuminated by a profound belief in collective destiny, not just personal glory.\",\"image_prompt\":\"Young Alexander, still in his radiant golden armor, stands amidst a bustling, diverse crowd of people from various cultures, all looking towards a distant horizon. His arm is extended, pointing towards a shared, hopeful future, as if painting a vision for them to follow. Golden light bathes the scene, highlighting unity.\"},{\"voiceText\":\"He knew that true strength lay in a common dream, pulling hearts together as one. This deep understanding forged an empire built on allegiance, not simply on subjugation.\",\"image_prompt\":\"A low-angle, powerful shot of young Alexander, armored in gold, atop a magnificent warhorse, pointing his spear forward with absolute conviction. Behind him, a multitude of soldiers and citizens, representing different backgrounds, march in unison towards a metaphorical rising sun. The scene evokes a feeling of shared momentum.\"},{\"voiceText\":\"The first secret was a clear, unyielding vision, a beacon guiding every step. Without this bright inner compass, any grand journey would surely falter.\",\"image_prompt\":\"Young Alexander, in shimmering golden armor, stands before a large, ancient map unfurled on a stone table in a dimly lit tent. His finger traces a bold path, pointing with certainty to a distant location, while torchlight casts dramatic shadows. His face shows intense focus and unwavering purpose.\"},{\"voiceText\":\"He painted a future so vivid, others could see it as clearly as their own reflection. This shared mental landscape became the fertile ground for genuine collaboration and trust.\",\"image_prompt\":\"Young Alexander, in his golden armor, stands silhouetted against a vibrant, imaginative landscape that materializes before him – a future city, diverse cultures mingling peacefully. He points towards this glorious, almost dreamlike vision, inviting his officers and advisors to witness and believe in it too.\"},{\"voiceText\":\"His second secret was an unwavering belief in the potential within every individual heart. He inspired greatness by seeing their capacity for courage and contribution.\",\"image_prompt\":\"A close-up, heroic shot of young Alexander in golden armor, his eyes meeting the gaze of a common soldier, extending his hand in a gesture of encouragement. He points subtly towards a distant objective, instilling confidence and a sense of shared importance. The background is blurred, focusing on their connection.\"},{\"voiceText\":\"Alexander fostered a spirit of inclusion, ensuring every voice found its place in the grand chorus. He built bridges between cultures, weaving them into a stronger, unified fabric.\",\"image_prompt\":\"Young Alexander, in gleaming golden armor, stands at the head of a long table, gesturing invitingly towards a diverse group of tribal leaders and elders. He points towards a central, illuminated map, symbolizing a common future where all cultures are represented and valued.\"},{\"voiceText\":\"He demonstrated resilience through every hardship, turning setbacks into stepping stones for triumph. His inner strength became a powerful shield, inspiring all who followed.\",\"image_prompt\":\"A dramatic, rain-swept battle scene with young Alexander, still in his golden armor, standing firm amidst the chaos, sword raised and pointing forward. His face, though weathered by conflict, shows unyielding resolve, a beacon of strength against overwhelming odds. Lightning flashes in the distance.\"},{\"voiceText\":\"The wisdom of ancient Greece guided his actions, blending philosophy with practical leadership. He sought not only victories on the field, but also triumphs of the human spirit.\",\"image_prompt\":\"Young Alexander, in golden armor, sits cross-legged on a patterned rug within a lavish tent, engrossed in an ancient scroll. His posture is one of deep contemplation, yet his other hand is subtly pointing to a strategic point on a nearby map, blending thought with action.\"},{\"voiceText\":\"He connected with his people on a personal level, sharing their challenges and celebrating their victories. This bond transcended ranks, forging an unbreakable loyalty among them.\",\"image_prompt\":\"A campfire scene at night, with young Alexander, in golden armor, sharing a simple meal and stories with his soldiers. His arm is resting on a comrade's shoulder, and he gestures subtly towards the starry sky, symbolizing shared dreams and an enduring fellowship.\"},{\"voiceText\":\"Alexander taught that true power comes from lifting others, empowering them to rise together. He built an army of leaders, not just followers, all united by purpose.\",\"image_prompt\":\"Young Alexander, in golden armor, stands on a slightly elevated platform, not above, but among his generals and advisors. He gestures with an open hand, pointing towards each of them in turn, conveying trust and empowering them to lead their divisions.\"},{\"voiceText\":\"His leadership was a beacon of light, guiding them through the darkest valleys of doubt and fear. He painted a future where their collective efforts would lead to lasting peace.\",\"image_prompt\":\"A dramatic scene of young Alexander, in golden armor, on horseback, leading his army through a treacherous, misty mountain pass. He points confidently towards the path ahead, his form illuminated by a single ray of sunlight breaking through the clouds, symbolizing hope and guidance.\"},{\"voiceText\":\"This visionary approach transformed disparate groups into a single, unstoppable force for progress. Unity became their greatest weapon, more potent than any sword.\",\"image_prompt\":\"A majestic panorama showing the vast, diverse army of young Alexander, clad in golden armor, marching across a golden plain at sunset. He is at the forefront, pointing towards a magnificent, prosperous city shimmering in the distance, a symbol of their united achievement and future.\"}],\"introText\":\"Alexander the Great’s Secret to Uniting People\",\"imageModel\":\"flux-pro\"},\"elements\":[{\"settings\":{\"word-color\":\"#FFFFFF\",\"shadow-offset\":3,\"shadow-color\":\"#000000\",\"max-words-per-line\":7,\"font-size\":60,\"style\":\"classic\",\"font-family\":\"Arial\",\"position\":\"center-center\",\"all-caps\":false},\"language\":\"en\",\"id\":\"qgyw6otz\",\"type\":\"subtitles\"},{\"volume\":0.2,\"duration\":-2,\"fade-out\":5,\"src\":\"{{audioURL}}\",\"start\":0,\"id\":\"qpzlh8lj\",\"type\":\"audio\"}],\"scenes\":[{\"duration\":7,\"id\":\"introScene\",\"elements\":[{\"resize\":\"fill\",\"id\":\"q36h7aa8\",\"fade-out\":2,\"type\":\"video\",\"src\":\"{{introVideo}}\"}]},{\"duration\":6,\"id\":\"introTextScene\",\"elements\":[{\"width\":1920,\"settings\":{\"font-color\":\"#333333\",\"horizontal-position\":\"center\",\"font-size\":\"70px\",\"font-family\":\"Pacifico\",\"line-height\":\"0.6\",\"vertical-position\":\"center\",\"opacity\":0.9,\"text-align\":\"center\"},\"style\":\"001\",\"id\":\"qagk3lhw\",\"text\":\"{{introText}}\",\"type\":\"text\"}]},{\"duration\":14,\"id\":\"q869hfsa\",\"iterate\":\"clips\",\"elements\":[{\"fade-out\":1,\"fade-in\":1,\"resize\":\"fill\",\"model\":\"{{imageModel}}\",\"zoom\":4,\"id\":\"qz3h49wg\",\"type\":\"image\",\"prompt\":\"{{image_prompt}}\"},{\"voice\":\"{{voiceID}}\",\"volume\":4,\"cache\":false,\"model\":\"{{voiceModel}}\",\"id\":\"q5acem12\",\"text\":\"{{voiceText}}\",\"type\":\"voice\"}]}],\"comment\":\"krystian template\",\"id\":\"qiaaelfg\",\"resolution\":\"full-hd\",\"quality\":\"high\"}",
+            "duration": 195,
+            "size": 56001074,
+            "width": 1920,
+            "height": 1080,
+            "rendering_time": 339,
+            "consumed_credits": [
+              {
+                "description": "Scene #3, element #2: voiceover: \"Ancient whisper...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #4, element #2: voiceover: \"Many sought to ...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 12
+              },
+              {
+                "description": "Scene #5, element #2: voiceover: \"He knew that tr...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #6, element #2: voiceover: \"The first secre...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 10
+              },
+              {
+                "description": "Scene #7, element #2: voiceover: \"He painted a fu...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #8, element #2: voiceover: \"His second secr...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 10
+              },
+              {
+                "description": "Scene #9, element #2: voiceover: \"Alexander foste...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #10, element #2: voiceover: \"He demonstrated...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #11, element #2: voiceover: \"The wisdom of a...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #12, element #2: voiceover: \"He connected wi...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #13, element #2: voiceover: \"Alexander taugh...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 11
+              },
+              {
+                "description": "Scene #14, element #2: voiceover: \"His leadership ...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 10
+              },
+              {
+                "description": "Scene #15, element #2: voiceover: \"This visionary ...\"",
+                "action": "ai-generation",
+                "model": "elevenlabs-flash-v2-5",
+                "credits": 9
+              },
+              {
+                "credits": 195,
+                "description": "Video rendering of 195 seconds",
+                "action": "video-rendering"
+              }
+            ]
+          },
+          "remaining_quota": {
+            "time": 266
+          }
+        }
+      }
+    ],
+    "Get Music": [
+      {
+        "json": {
+          "row_number": 2,
+          "audio list": "https://assets.json2video.com/clients/ei26CbiFGd/uploads/Whispers in the Fog.mp3",
+          "to use": "final",
+          "intro video": "https://videos.pexels.com/video-files/7385122/7385122-hd_1280_720_30fps.mp4"
+        }
+      }
+    ],
+    "Generate Prompts": [
+      {
+        "json": {
+          "output": [
+            {
+              "voiceText": "Ancient whispers speak of a leader whose vision shone brighter than any crown. He understood that true power stemmed not from force, but from shared purpose.",
+              "image_prompt": "A cinematic shot of a young Alexander in polished golden armor, standing on a windswept cliff at dawn. His determined gaze looks out over a vast, misty landscape towards the rising sun, symbolizing an expansive vision. He points forward with unwavering resolve, an emblem of a new era."
+            },
+            {
+              "voiceText": "Many sought to conquer lands, yet Alexander aimed higher, seeking to unite diverse peoples. His path was illuminated by a profound belief in collective destiny, not just personal glory.",
+              "image_prompt": "Young Alexander, still in his radiant golden armor, stands amidst a bustling, diverse crowd of people from various cultures, all looking towards a distant horizon. His arm is extended, pointing towards a shared, hopeful future, as if painting a vision for them to follow. Golden light bathes the scene, highlighting unity."
+            },
+            {
+              "voiceText": "He knew that true strength lay in a common dream, pulling hearts together as one. This deep understanding forged an empire built on allegiance, not simply on subjugation.",
+              "image_prompt": "A low-angle, powerful shot of young Alexander, armored in gold, atop a magnificent warhorse, pointing his spear forward with absolute conviction. Behind him, a multitude of soldiers and citizens, representing different backgrounds, march in unison towards a metaphorical rising sun. The scene evokes a feeling of shared momentum."
+            },
+            {
+              "voiceText": "The first secret was a clear, unyielding vision, a beacon guiding every step. Without this bright inner compass, any grand journey would surely falter.",
+              "image_prompt": "Young Alexander, in shimmering golden armor, stands before a large, ancient map unfurled on a stone table in a dimly lit tent. His finger traces a bold path, pointing with certainty to a distant location, while torchlight casts dramatic shadows. His face shows intense focus and unwavering purpose."
+            },
+            {
+              "voiceText": "He painted a future so vivid, others could see it as clearly as their own reflection. This shared mental landscape became the fertile ground for genuine collaboration and trust.",
+              "image_prompt": "Young Alexander, in his golden armor, stands silhouetted against a vibrant, imaginative landscape that materializes before him – a future city, diverse cultures mingling peacefully. He points towards this glorious, almost dreamlike vision, inviting his officers and advisors to witness and believe in it too."
+            },
+            {
+              "voiceText": "His second secret was an unwavering belief in the potential within every individual heart. He inspired greatness by seeing their capacity for courage and contribution.",
+              "image_prompt": "A close-up, heroic shot of young Alexander in golden armor, his eyes meeting the gaze of a common soldier, extending his hand in a gesture of encouragement. He points subtly towards a distant objective, instilling confidence and a sense of shared importance. The background is blurred, focusing on their connection."
+            },
+            {
+              "voiceText": "Alexander fostered a spirit of inclusion, ensuring every voice found its place in the grand chorus. He built bridges between cultures, weaving them into a stronger, unified fabric.",
+              "image_prompt": "Young Alexander, in gleaming golden armor, stands at the head of a long table, gesturing invitingly towards a diverse group of tribal leaders and elders. He points towards a central, illuminated map, symbolizing a common future where all cultures are represented and valued."
+            },
+            {
+              "voiceText": "He demonstrated resilience through every hardship, turning setbacks into stepping stones for triumph. His inner strength became a powerful shield, inspiring all who followed.",
+              "image_prompt": "A dramatic, rain-swept battle scene with young Alexander, still in his golden armor, standing firm amidst the chaos, sword raised and pointing forward. His face, though weathered by conflict, shows unyielding resolve, a beacon of strength against overwhelming odds. Lightning flashes in the distance."
+            },
+            {
+              "voiceText": "The wisdom of ancient Greece guided his actions, blending philosophy with practical leadership. He sought not only victories on the field, but also triumphs of the human spirit.",
+              "image_prompt": "Young Alexander, in golden armor, sits cross-legged on a patterned rug within a lavish tent, engrossed in an ancient scroll. His posture is one of deep contemplation, yet his other hand is subtly pointing to a strategic point on a nearby map, blending thought with action."
+            },
+            {
+              "voiceText": "He connected with his people on a personal level, sharing their challenges and celebrating their victories. This bond transcended ranks, forging an unbreakable loyalty among them.",
+              "image_prompt": "A campfire scene at night, with young Alexander, in golden armor, sharing a simple meal and stories with his soldiers. His arm is resting on a comrade's shoulder, and he gestures subtly towards the starry sky, symbolizing shared dreams and an enduring fellowship."
+            },
+            {
+              "voiceText": "Alexander taught that true power comes from lifting others, empowering them to rise together. He built an army of leaders, not just followers, all united by purpose.",
+              "image_prompt": "Young Alexander, in golden armor, stands on a slightly elevated platform, not above, but among his generals and advisors. He gestures with an open hand, pointing towards each of them in turn, conveying trust and empowering them to lead their divisions."
+            },
+            {
+              "voiceText": "His leadership was a beacon of light, guiding them through the darkest valleys of doubt and fear. He painted a future where their collective efforts would lead to lasting peace.",
+              "image_prompt": "A dramatic scene of young Alexander, in golden armor, on horseback, leading his army through a treacherous, misty mountain pass. He points confidently towards the path ahead, his form illuminated by a single ray of sunlight breaking through the clouds, symbolizing hope and guidance."
+            },
+            {
+              "voiceText": "This visionary approach transformed disparate groups into a single, unstoppable force for progress. Unity became their greatest weapon, more potent than any sword.",
+              "image_prompt": "A majestic panorama showing the vast, diverse army of young Alexander, clad in golden armor, marching across a golden plain at sunset. He is at the forefront, pointing towards a magnificent, prosperous city shimmering in the distance, a symbol of their united achievement and future."
+            },
+            {
+              "voiceText": "Alexander's lasting legacy teaches us that uniting people begins with a shared vision and inner strength. This timeless wisdom still guides us towards building a better, more harmonious world.",
+              "image_prompt": "An epic, wide shot of young Alexander, in dazzling golden armor, standing on a verdant hill overlooking a vast, flourishing, peaceful kingdom where different cultures coexist harmoniously. He looks out, one arm extended, pointing not to a conquest, but to the serene, prosperous landscape, a testament to his unifying vision. The sun sets gently, casting a warm, golden glow."
+            }
+          ]
+        }
+      }
+    ],
+    "Get row(s) in sheet": [
+      {
+        "json": {
+          "row_number": 2,
+          " ID": 1,
+          "IDEAS": "Alexander the Great’s Secret to Uniting People",
+          "CHANNEL_STYLE_PROMPT": "leadership lessons, ancient wisdom, inner strength, vision, resilience",
+          "CHARACTER_STYLE_PROMPT": "A young Alexander in golden armor pointing forward with determination",
+          "CAPTIONS": "Learn how one man inspired empires \n Unity begins with vision, not conquest",
+          "PRODUCTION_STATUS": "to create",
+          "FINAL_OUTPUT": "",
+          "PUBLISHING_STATUS": "not published",
+          "ERRORS": ""
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get row(s) in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Generate Prompts",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Music": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "update sheet",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error log",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get row(s) in sheet": {
+      "main": [
+        [
+          {
+            "node": "Generate Prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Generate Prompts",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Prompts": {
+      "main": [
+        [
+          {
+            "node": "Get Music",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "update sheet": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c5fe26ea-419e-47bd-b6cf-5fd8b783665a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1754f794c53fad2bfe6db86c90811c562737e17002dd76c1e1c2eedd3f76e240"
+  },
+  "id": "wfmgcUy1fvbinUht",
+  "tags": []
+}
